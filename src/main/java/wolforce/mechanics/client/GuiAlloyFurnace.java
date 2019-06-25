@@ -32,12 +32,32 @@ public class GuiAlloyFurnace extends GuiBase {
         this.drawTexturedModalRect(i, j, 0, 0, this.xSize, this.ySize);
 
         if (this.tile.burnTicksRemaining > 0) {
-            int k = this.getBarScaled(24, tile.burnTicksRemaining, tile.burnTicksMax);
+            int k = this.getBurnLeftScaled(24);//, tile.burnTicksRemaining, tile.burnTicksMax);
             this.drawTexturedModalRect(i + 56, j + 36 + 12 - k, 176, 12 - k, 14, k + 1);
         }
 
-        int l = this.getBarScaled(13, tile.progressTicks, MConfig.alloy_furnace.default_time);
+        // int l = this.getBarScaled(13, tile.progressTicks, MConfig.alloy_furnace.default_time);
+        int l = this.getCookProgressScaled(24);
         this.drawTexturedModalRect(i + 79, j + 34, 176, 14, l + 1, 16);
+    }
+
+    private int getCookProgressScaled(int pixels) {
+        if (this.tile.currentRecipe != null) {
+            int i = this.tile.progressTicks;
+            int j = MConfig.alloy_furnace.default_time;
+            return j != 0 && i != 0 ? i * pixels / j : 0;
+        }
+        return 0;
+    }
+
+    private int getBurnLeftScaled(int pixels) {
+        int i = this.tile.burnTicksMax;
+
+        if (i == 0) {
+            i = 200;
+        }
+
+        return this.tile.burnTicksRemaining * pixels / i;
     }
 
 }
