@@ -1,3 +1,5 @@
 tile.mechanics.drying_table.name=Drying Table
+tile.mechanics.alloy_furnace.name=Alloy Furnace
+
 
 itemGroup.mechanics=Mechanics
