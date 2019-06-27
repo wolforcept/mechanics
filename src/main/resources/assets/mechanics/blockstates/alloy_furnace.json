@@ -1,7 +1,10 @@
 {
     "variants": {
-        "normal": [
-            { "model": "mechanics:alloy_furnace" }
-        ]
+        "facing=up": { "model": "mechanics:alloy_furnace" },
+        "facing=down": { "model": "mechanics:alloy_furnace" },
+        "facing=north": { "model": "mechanics:alloy_furnace" },
+        "facing=south": { "model": "mechanics:alloy_furnace", "y": 180 },
+        "facing=west":  { "model": "mechanics:alloy_furnace", "y": 270 },
+        "facing=east":  { "model": "mechanics:alloy_furnace", "y": 90 }
     }
 }
