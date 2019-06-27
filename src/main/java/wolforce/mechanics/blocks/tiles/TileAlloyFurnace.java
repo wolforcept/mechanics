@@ -4,30 +4,43 @@ import mechanics.ct.RecipeAlloyFurnace;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntityFurnace;
+import net.minecraft.util.EnumFacing;
 import net.minecraft.util.ITickable;
+import net.minecraftforge.common.capabilities.Capability;
+import net.minecraftforge.items.CapabilityItemHandler;
 import net.minecraftforge.items.ItemStackHandler;
+import net.minecraftforge.items.wrapper.CombinedInvWrapper;
 import wolforce.mechanics.MConfig;
 import wolforce.mechanics.blocks.bases.IGuiTile;
 
 import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 
 public class TileAlloyFurnace extends TileBase implements ITickable, IGuiTile {
 
     public ItemStackHandler input;
     public ItemStackHandler output;
+    //public CombinedInvWrapper inventory;
     public int burnTicksRemaining = 0;
     public int burnTicksMax = 0;
     public int progressTicks = 0;
-    private RecipeAlloyFurnace currentRecipe;
+    public RecipeAlloyFurnace currentRecipe;
+
+    public CombinedInvWrapper automationInventory;
+    public WrappedItemHandler automationInput;
+    public WrappedItemHandler automationOutput;
 
     public TileAlloyFurnace() {
         this.input = new ItemStackHandler(3) {
             @Nonnull
             @Override
             public ItemStack insertItem(int slot, @Nonnull ItemStack stack, boolean simulate) {
-                if (slot <= 1 || (slot == 2 && TileEntityFurnace.getItemBurnTime(stack) > 0)) {
-                    return super.insertItem(slot, stack, simulate);
-                } else return stack;
+                if (TileEntityFurnace.getItemBurnTime(stack) > 0) {
+                    if (slot == 2) return super.insertItem(slot, stack, simulate);
+                    else return stack;
+                }
+                if (slot <= 1) return super.insertItem(slot, stack, simulate);
+                else return stack;
             }
 
             @Override
@@ -35,6 +48,7 @@ public class TileAlloyFurnace extends TileBase implements ITickable, IGuiTile {
                 refreshRecipe();
             }
         };
+
         this.output = new ItemStackHandler(1) {
             @Nonnull
             @Override
@@ -42,6 +56,15 @@ public class TileAlloyFurnace extends TileBase implements ITickable, IGuiTile {
                 return stack;
             }
         };
+
+        automationInput = new WrappedItemHandler(input) {
+            @Override
+            public ItemStack extractItem(int slot, int amount, boolean simulate) {
+                return ItemStack.EMPTY;
+            }
+        };
+        automationOutput = new WrappedItemHandler(output);
+        automationInventory = new CombinedInvWrapper(this.automationInput, this.automationOutput);
     }
 
     public ItemStack getInput1() {
@@ -71,6 +94,7 @@ public class TileAlloyFurnace extends TileBase implements ITickable, IGuiTile {
     public void update() {
         if (!world.isRemote) {
             if (canProcess()) process();
+            else if (this.burnTicksRemaining > 0) burnTicksRemaining--;
         }
     }
 
@@ -131,5 +155,19 @@ public class TileAlloyFurnace extends TileBase implements ITickable, IGuiTile {
     @Override
     public int getGuiHeight() {
         return 166;
+    }
+
+    @Override
+    public boolean hasCapability(Capability<?> capability, @Nullable EnumFacing facing) {
+        if (capability == CapabilityItemHandler.ITEM_HANDLER_CAPABILITY) return true;
+        else return super.hasCapability(capability, facing);
+    }
+
+    @Nullable
+    @Override
+    public <T> T getCapability(Capability<T> capability, @Nullable EnumFacing facing) {
+        if (capability == CapabilityItemHandler.ITEM_HANDLER_CAPABILITY) {
+            return (T) automationInventory;
+        } else return super.getCapability(capability, facing);
     }
 }
