@@ -23,7 +23,7 @@ public class Mechanics {
 
 	public static final String MODID = "mechanics";
 	public static final String NAME = "Mechanics";
-	public static final String VERSION = "0.1";
+	public static final String VERSION = "0.2";
 	public static final Logger logger = LogManager.getLogger(NAME);
 
 	public static final int VICE = 1;

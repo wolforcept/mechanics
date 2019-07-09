@@ -2,7 +2,7 @@
 	"credit": "Made with Blockbench",
 	"textures": {
 		"0": "mechanics:blocks/furnace_top",
-		"1": "mechanics:blocks/furnace_front_off",
+		"1": "mechanics:blocks/furnace_front",
 		"3": "mechanics:blocks/furnace_side",
 		"4": "mechanics:blocks/black",
 		"5": "mechanics:blocks/grid",
