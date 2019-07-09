@@ -1,6 +1,8 @@
 tile.mechanics.drying_table.name=Drying Table
 tile.mechanics.alloy_furnace.name=Alloy Furnace
 
+item.mechanics.martlet_stone.name=Stone Martlet
+item.mechanics.martlet_iron.name=Iron Martlet
 
 itemGroup.mechanics=Mechanics
 jei.alloy_furnace.name=Alloy Furnace

@@ -39,9 +39,25 @@ public class CTIntegration {
 		RecipeDryingTable.addRecipe(input, output, time);
 	}
 
+	// ALLOY FURNACE
+
 	@ZenDoc("Add a recipe for the Alloy Furnace.")
 	@ZenMethod
-	public static void addAlloyFurnaceRecipe(IIngredient input1, IIngredient input2, IItemStack output){
-		RecipeAlloyFurnace.addRecipe(input1,input2,output);
+	public static void addAlloyFurnaceRecipe(IIngredient input1, IIngredient input2, IItemStack output) {
+		RecipeAlloyFurnace.addRecipe(input1, input2, output);
+	}
+
+	// MARTLET
+
+	@ZenDoc("Add a recipe for the Martlet.")
+	@ZenMethod
+	public static void addMartletRecipe(IIngredient input, IItemStack output) {
+		RecipeMartlet.addRecipe(input, output);
+	}
+
+	@ZenDoc("Add a recipe for the Martlet.")
+	@ZenMethod
+	public static void removeMartletRecipe(IIngredient input) {
+		RecipeMartlet.removeRecipe(input);
 	}
 }

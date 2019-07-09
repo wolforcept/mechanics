@@ -28,6 +28,11 @@ public class RegisterModels {
 					new ModelResourceLocation(itemBlock.getRegistryName(), "inventory"));
 		}
 
+		for (Item item : Main.items) {
+			ModelLoader.setCustomModelResourceLocation(item, 0,
+					new ModelResourceLocation(item.getRegistryName(), "inventory"));
+		}
+
 		ClientRegistry.bindTileEntitySpecialRenderer(TileDryingTable.class, new TesrDryingTable());
 
 	}
