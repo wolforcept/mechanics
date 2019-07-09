@@ -1,7 +1,5 @@
 package wolforce.mechanics.blocks;
 
-import javax.annotation.Nullable;
-
 import net.minecraft.block.Block;
 import net.minecraft.block.ITileEntityProvider;
 import net.minecraft.block.material.Material;
@@ -21,6 +19,8 @@ import net.minecraft.world.World;
 import wolforce.mechanics.Mechanics;
 import wolforce.mechanics.blocks.tiles.TileAlloyFurnace;
 import wolforce.mechanics.client.GuiHandler;
+
+import javax.annotation.Nullable;
 
 public class BlockAlloyFurnace extends Block implements ITileEntityProvider {
 
@@ -54,6 +54,17 @@ public class BlockAlloyFurnace extends Block implements ITileEntityProvider {
 	@Override
 	public TileEntity createNewTileEntity(World worldIn, int meta) {
 		return new TileAlloyFurnace();
+	}
+
+
+	@Override
+	public void breakBlock(World world, BlockPos pos, IBlockState state) {
+		if (!world.isRemote) {
+			TileEntity tile = world.getTileEntity(pos);
+			if (tile != null && tile instanceof TileAlloyFurnace)
+				((TileAlloyFurnace) tile).dropContents(world, pos);
+		}
+		super.breakBlock(world, pos, state);
 	}
 
 	@Override
