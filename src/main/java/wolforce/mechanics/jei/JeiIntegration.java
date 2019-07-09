@@ -4,9 +4,11 @@ import mechanics.ct.RecipeAlloyFurnace;
 import mezz.jei.api.*;
 import mezz.jei.api.gui.ICraftingGridHelper;
 import mezz.jei.api.recipe.IRecipeCategoryRegistration;
+import mezz.jei.api.recipe.VanillaRecipeCategoryUid;
 import net.minecraft.item.ItemStack;
 import wolforce.mechanics.Main;
 import wolforce.mechanics.Mechanics;
+import wolforce.mechanics.client.GuiAlloyFurnace;
 import wolforce.mechanics.jei.alloy.AlloyRecipeCategory;
 import wolforce.mechanics.jei.alloy.AlloyRecipeWrapper;
 
@@ -49,6 +51,6 @@ public class JeiIntegration implements IModPlugin {
 
         registry.addRecipeCatalyst(new ItemStack(Main.alloy_furnace), ALLOY_FURNACE);
 
-        //registry.addRecipeClickArea(GuiAlloyFurnace.class, 86, 50, 17, 33, ALLOY_FURNACE);
+        registry.addRecipeClickArea(GuiAlloyFurnace.class, 78, 32, 28, 23, ALLOY_FURNACE, VanillaRecipeCategoryUid.FUEL);
     }
 }

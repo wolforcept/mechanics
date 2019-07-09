@@ -6,11 +6,14 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntityFurnace;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.ITickable;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.World;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.items.CapabilityItemHandler;
 import net.minecraftforge.items.ItemStackHandler;
 import net.minecraftforge.items.wrapper.CombinedInvWrapper;
 import wolforce.mechanics.MConfig;
+import wolforce.mechanics.MUtil;
 import wolforce.mechanics.blocks.bases.IGuiTile;
 
 import javax.annotation.Nonnull;
@@ -90,11 +93,31 @@ public class TileAlloyFurnace extends TileBase implements ITickable, IGuiTile {
         } else currentRecipe = null;
     }
 
+    public void dropContents(World world, BlockPos pos) {
+        CombinedInvWrapper wrapper = new CombinedInvWrapper(input, output);
+        for (int slot = 0; slot < wrapper.getSlots(); slot++)
+            MUtil.spawnItem(world, pos, wrapper.extractItem(slot, 64, false));
+    }
+
     @Override
     public void update() {
         if (!world.isRemote) {
-            if (canProcess()) process();
-            else if (this.burnTicksRemaining > 0) burnTicksRemaining--;
+            boolean dirty = false;
+            if (canProcess()) {
+                process();
+                dirty = true;
+            }
+            if (this.burnTicksRemaining > 0) {
+                burnTicksRemaining--;
+                dirty = true;
+            }
+            if (burnTicksRemaining == 0) {
+                if (progressTicks > 0) {
+                    progressTicks--;
+                    dirty = true;
+                }
+            }
+            if (dirty) markDirtyGUI();
         }
     }
 
@@ -110,7 +133,7 @@ public class TileAlloyFurnace extends TileBase implements ITickable, IGuiTile {
             getFuel().shrink(1);
         }
         if (burnTicksRemaining > 0) {
-            burnTicksRemaining--;
+            //burnTicksRemaining--;
             progressTicks++;
             if (progressTicks >= MConfig.alloy_furnace.default_time) {
                 progressTicks = 0;
