@@ -35,6 +35,16 @@ public class RecipeAlloyFurnace {
         return null;
     }
 
+    public static RecipeAlloyFurnace findRecipe(ItemStack input){
+        for(RecipeAlloyFurnace recipe: recipes){
+            if(recipe.input1.matches(CraftTweakerMC.getIItemStack(input))
+            || recipe.input2.matches(CraftTweakerMC.getIItemStack(input))){
+                return recipe;
+            }
+        }
+        return null;
+    }
+
     //
 
     //

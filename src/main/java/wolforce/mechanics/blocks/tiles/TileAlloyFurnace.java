@@ -38,12 +38,31 @@ public class TileAlloyFurnace extends TileBase implements ITickable, IGuiTile {
             @Nonnull
             @Override
             public ItemStack insertItem(int slot, @Nonnull ItemStack stack, boolean simulate) {
-                if (TileEntityFurnace.getItemBurnTime(stack) > 0) {
-                    if (slot == 2) return super.insertItem(slot, stack, simulate);
-                    else return stack;
+                if (slot == 2 && TileEntityFurnace.getItemBurnTime(stack) > 0) {
+                    return super.insertItem(slot, stack, simulate);
                 }
-                if (slot <= 1) return super.insertItem(slot, stack, simulate);
-                else return stack;
+                //I'm sure this can be simplified,
+                if (slot == 0) {
+                    ItemStack slot1 = this.getStackInSlot(1);
+                    if (!slot1.isEmpty()) {
+                        if (RecipeAlloyFurnace.findRecipe(slot1, stack) != null) {
+                            return super.insertItem(slot, stack, simulate);
+                        } else return stack;
+                    } else if (RecipeAlloyFurnace.findRecipe(stack) != null) {
+                        return super.insertItem(slot, stack, simulate);
+                    }
+                }
+                if (slot == 1) {
+                    ItemStack slot0 = this.getStackInSlot(0);
+                    if (!slot0.isEmpty()) {
+                        if (RecipeAlloyFurnace.findRecipe(slot0, stack) != null) {
+                            return super.insertItem(slot, stack, simulate);
+                        } else return stack;
+                    } else if (RecipeAlloyFurnace.findRecipe(stack) != null) {
+                        return super.insertItem(slot, stack, simulate);
+                    }
+                }
+                return stack;
             }
 
             @Override
@@ -106,16 +125,13 @@ public class TileAlloyFurnace extends TileBase implements ITickable, IGuiTile {
             if (canProcess()) {
                 process();
                 dirty = true;
+            }else if(progressTicks > 0){
+                progressTicks--;
+                dirty = true;
             }
             if (this.burnTicksRemaining > 0) {
                 burnTicksRemaining--;
                 dirty = true;
-            }
-            if (burnTicksRemaining == 0) {
-                if (progressTicks > 0) {
-                    progressTicks--;
-                    dirty = true;
-                }
             }
             if (dirty) markDirtyGUI();
         }
@@ -146,7 +162,6 @@ public class TileAlloyFurnace extends TileBase implements ITickable, IGuiTile {
         } else {
             this.burnTicksMax = 0;
         }
-        markDirtyGUI();
     }
 
     @Override
