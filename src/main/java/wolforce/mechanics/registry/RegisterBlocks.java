@@ -25,7 +25,7 @@ public class RegisterBlocks {
 				Class<? extends TileEntity> clazz = ((ITileEntityProvider) block).createNewTileEntity(null, 0)
 						.getClass();
 				GameRegistry.registerTileEntity(clazz,
-						new ResourceLocation(Mechanics.MODID + ":tile_" + block.getUnlocalizedName()));
+						new ResourceLocation(Mechanics.MODID + ":tile_" + block.getTranslationKey()));
 			}
 		}
 	}
@@ -34,7 +34,7 @@ public class RegisterBlocks {
 	public static void registerItemsBlocks(RegistryEvent.Register<Item> event) {
 		for (Block block : Main.blocks) {
 			ItemBlock itemblock = new ItemBlock(block);
-			MUtil.setReg(itemblock, block.getRegistryName().getResourcePath());
+			MUtil.setReg(itemblock, block.getRegistryName().getPath());
 			event.getRegistry().register(itemblock);
 		}
 	}
