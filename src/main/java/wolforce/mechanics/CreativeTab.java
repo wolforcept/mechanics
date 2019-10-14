@@ -10,7 +10,7 @@ public class CreativeTab extends CreativeTabs {
 	}
 
 	@Override
-	public ItemStack getTabIconItem() {
+	public ItemStack createIcon() {
 		return new ItemStack(Main.drying_table);
 	}
 }

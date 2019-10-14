@@ -17,7 +17,6 @@ public class RecipeAlloyFurnace {
     public static void addRecipe(IIngredient input1, IIngredient input2, IItemStack output) {
         recipes.add(new RecipeAlloyFurnace(input1, input2, output));
         Mechanics.logNormal("Alloy Furnace recipe added: " + input1 + " + " + input2 + " --> " + output);
-
     }
 
     public static RecipeAlloyFurnace findRecipe(ItemStack input1, ItemStack input2) {

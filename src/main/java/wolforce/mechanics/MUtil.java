@@ -16,12 +16,12 @@ import net.minecraftforge.items.ItemStackHandler;
 public class MUtil {
 
 	public static void setReg(Block block, String name) {
-		block.setUnlocalizedName(Mechanics.MODID + "." + name);
+		block.setTranslationKey(Mechanics.MODID + "." + name);
 		block.setRegistryName(MUtil.res(name));
 	}
 
 	public static void setReg(Item block, String name) {
-		block.setUnlocalizedName(Mechanics.MODID + "." + name);
+		block.setTranslationKey(Mechanics.MODID + "." + name);
 		block.setRegistryName(MUtil.res(name));
 	}
 
