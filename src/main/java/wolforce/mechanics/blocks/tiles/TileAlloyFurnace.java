@@ -11,7 +11,7 @@ import net.minecraftforge.items.ItemStackHandler;
 import net.minecraftforge.items.wrapper.CombinedInvWrapper;
 import wolforce.mechanics.MConfig;
 import wolforce.mechanics.blocks.bases.IGuiTile;
-import wolforce.mechanics.ct.RecipeAlloyFurnace;
+import wolforce.mechanics.recipes.RecipeAlloyFurnace;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;

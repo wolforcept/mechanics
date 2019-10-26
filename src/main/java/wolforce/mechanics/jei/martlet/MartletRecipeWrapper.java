@@ -3,7 +3,7 @@ package wolforce.mechanics.jei.martlet;
 import mezz.jei.api.ingredients.IIngredients;
 import mezz.jei.api.ingredients.VanillaTypes;
 import mezz.jei.api.recipe.IRecipeWrapper;
-import wolforce.mechanics.ct.RecipeMartlet;
+import wolforce.mechanics.recipes.RecipeMartlet;
 
 public class MartletRecipeWrapper implements IRecipeWrapper {
 

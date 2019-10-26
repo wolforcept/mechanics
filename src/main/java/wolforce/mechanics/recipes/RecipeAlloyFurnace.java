@@ -1,4 +1,4 @@
-package wolforce.mechanics.ct;
+package wolforce.mechanics.recipes;
 
 import crafttweaker.api.item.IIngredient;
 import crafttweaker.api.item.IItemStack;

@@ -6,7 +6,7 @@ import mezz.jei.api.ingredients.IIngredients;
 import mezz.jei.api.ingredients.VanillaTypes;
 import mezz.jei.api.recipe.IRecipeWrapper;
 import net.minecraft.item.ItemStack;
-import wolforce.mechanics.ct.RecipeAlloyFurnace;
+import wolforce.mechanics.recipes.RecipeAlloyFurnace;
 
 import java.util.List;
 

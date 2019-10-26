@@ -38,6 +38,7 @@ import net.minecraftforge.fluids.FluidRegistry;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.items.ItemStackHandler;
 
+@SuppressWarnings("deprecation")
 public class Util {
 
 	public static ResourceLocation res(String domain, String path) {
@@ -50,7 +51,10 @@ public class Util {
 	}
 
 	public static boolean equalExceptAmount(ItemStack stack1, ItemStack stack2) {
-		return stack1.getItem() == stack2.getItem() && stack1.getMetadata() == stack2.getMetadata();
+		return stack1.getItem() == stack2.getItem() && stack1.getMetadata() == stack2.getMetadata() && ( //
+		/*    */(!stack1.hasTagCompound() && !stack2.hasTagCompound()) || //
+				(stack1.getTagCompound().equals(stack2.getTagCompound())) //
+		);
 	}
 
 	public static void spawnItem(World world, BlockPos pos, ItemStack stack, double... speeds) {
@@ -103,30 +107,18 @@ public class Util {
 		return new ItemStack(state.getBlock(), 1, state.getBlock().getMetaFromState(state));
 	}
 
-	public static void setReg(Block block, String name) {
-		block.setUnlocalizedName(Hwell.MODID + "." + name);
-		block.setRegistryName(Util.res(name));
+	public static void setReg(String modid, Block block, String name) {
+		block.setUnlocalizedName(modid + "." + name);
+		block.setRegistryName(Util.res(modid, name));
 	}
 
-	public static void setReg(Item block, String name) {
-		block.setUnlocalizedName(Hwell.MODID + "." + name);
-		block.setRegistryName(Util.res(name));
-	}
-
-	// ITEMSTACKS
-	public static boolean isValid(ItemStack stack) {
-		return stack != null && stack.getCount() > 0 && !stack.isEmpty() && !stack.getItem().equals(Items.AIR);
+	public static void setReg(String modid, Item block, String name) {
+		block.setUnlocalizedName(modid + "." + name);
+		block.setRegistryName(Util.res(modid, name));
 	}
 
 	public static boolean canBeStacked(ItemStack stack1, ItemStack stack2) {
 		return ItemStack.areItemsEqual(stack1, stack2) && ItemStack.areItemStackTagsEqual(stack1, stack2);
-	}
-
-	public static boolean equalExceptAmount(ItemStack stack1, ItemStack stack2) {
-		return stack1.getItem() == stack2.getItem() && stack1.getMetadata() == stack2.getMetadata() && ( //
-		/*    */(!stack1.hasTagCompound() && !stack2.hasTagCompound()) || //
-				(stack1.getTagCompound().equals(stack2.getTagCompound())) //
-		);
 	}
 
 	// SPAWN ITEMS
@@ -142,34 +134,6 @@ public class Util {
 	public static void spawnItem(World world, Vec3d pos, ItemStack stack, int pickupDelay, EnumFacing facing) {
 		Vec3d v = facingToVector(facing);
 		spawnItem(world, pos, stack, pickupDelay, v.x / 2.0, v.y / 2.0, v.z / 2.0);
-	}
-
-	public static void spawnItem(World world, BlockPos pos, ItemStack stack, double... speeds) {
-		spawnItem(world, new Vec3d(pos.getX() + .5, pos.getY(), pos.getZ() + .5), stack, speeds);
-	}
-
-	public static void spawnItem(World world, Vec3d pos, ItemStack stack, double... speeds) {
-		spawnItem(world, pos, stack, 0, speeds);
-	}
-
-	/**
-	 * default pickupDelay = 10 player throw pickupDelay = 40
-	 */
-	public static void spawnItem(World world, Vec3d pos, ItemStack stack, int pickupDelay, double... speeds) {
-		if (!Util.isValid(stack))
-			return;
-		EntityItem entityitem = new EntityItem(world, pos.x, pos.y, pos.z, stack);
-		if (speeds.length == 0) {
-			entityitem.motionX = Math.random() * .4 - .2;
-			entityitem.motionY = Math.random() * .2;
-			entityitem.motionZ = Math.random() * .4 - .2;
-		} else {
-			entityitem.motionX = speeds[0];
-			entityitem.motionY = speeds[1];
-			entityitem.motionZ = speeds[2];
-		}
-		entityitem.setPickupDelay(pickupDelay);
-		world.spawnEntity(entityitem);
 	}
 
 	public static Vec3d facingToVector(EnumFacing facing) {
@@ -189,42 +153,6 @@ public class Util {
 	// - .1);
 	// }
 	// }
-
-	public static LinkedList<Block> makeVariants(MyBlock... blocks) {
-		LinkedList<Block> variants = new LinkedList<>();
-		for (MyBlock block : blocks) {
-
-			MySlab slab = new MySlab(block);
-			variants.add(slab);
-
-			MyStairs stairs = new MyStairs(block);
-			variants.add(stairs);
-
-			if (block != Main.myst_planks) {
-
-				MyBlock brick = new MyBlock(block.getRegistryName().getResourcePath() + "_bricks",
-						block.getDefaultState().getMaterial());
-				brick.setHardness(block.hardness);
-				brick.setResistance(block.resistance);
-				variants.add(brick);
-
-				MySlab brickslab = new MySlab(brick);
-				brickslab.setHardness(block.hardness);
-				brickslab.setResistance(block.resistance);
-				variants.add(brickslab);
-
-				MyStairs brickstairs = new MyStairs(brick);
-				brickstairs.setHardness(block.hardness);
-				brickstairs.setResistance(block.resistance);
-				variants.add(brickstairs);
-			}
-		}
-		return variants;
-	}
-
-	public static ResourceLocation res(String string) {
-		return new ResourceLocation(Hwell.MODID, string);
-	}
 
 	public static ResourceLocation resMC(String string) {
 		return new ResourceLocation("minecraft", string);
@@ -249,7 +177,7 @@ public class Util {
 	// MULTIBLOCK CHECKERS
 
 	public static boolean isMultiblockBuilt(World world, BlockPos realPos, EnumFacing facing, String[][][] multiblock,
-			HashMap<String, BlockWithMeta> table) {
+			HashMap<String, BlockWithMeta> table, boolean auto) {
 		BlockPos center = getMyPosition(facing, multiblock);
 
 		if (facing == EnumFacing.EAST || facing == EnumFacing.WEST) {
@@ -258,7 +186,7 @@ public class Util {
 					for (int z = 0; z < multiblock[y][x].length; z++) {
 						if (multiblock[y][x][z] == null || multiblock[y][x][z] == "00")
 							continue;
-						if (!checkPos(world, realPos, center, facing, multiblock[y][x][z], x, y, z, table))
+						if (!checkPos(world, realPos, center, facing, multiblock[y][x][z], x, y, z, table, auto))
 							return false;
 					}
 				}
@@ -269,7 +197,7 @@ public class Util {
 					for (int x = 0; x < multiblock[y][z].length; x++) {
 						if (multiblock[y][z][x] == null || multiblock[y][z][x] == "00")
 							continue;
-						if (!checkPos(world, realPos, center, facing, multiblock[y][z][x], x, y, z, table))
+						if (!checkPos(world, realPos, center, facing, multiblock[y][z][x], x, y, z, table, auto))
 							return false;
 					}
 				}
@@ -290,7 +218,6 @@ public class Util {
 		// return false;
 	}
 
-	@SuppressWarnings("deprecation")
 	private static boolean checkPos(World world, BlockPos realPos, BlockPos centre, EnumFacing facing, String mbs,
 			int x, int y, int z, HashMap<String, BlockWithMeta> table, boolean isAutomaticMultiblocks) {
 

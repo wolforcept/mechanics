@@ -7,7 +7,7 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraftforge.items.ItemStackHandler;
 import wolforce.mechanics.Util;
-import wolforce.mechanics.ct.RecipeDryingTable;
+import wolforce.mechanics.recipes.RecipeDryingTable;
 
 public class TileDryingTable extends TileBase implements ITickable {
 

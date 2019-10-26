@@ -1,4 +1,4 @@
-package wolforce.mechanics.ct;
+package wolforce.mechanics.recipes;
 
 import java.util.LinkedList;
 import java.util.List;

@@ -17,7 +17,7 @@ import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import wolforce.mechanics.Util;
 import wolforce.mechanics.blocks.tiles.TileDryingTable;
-import wolforce.mechanics.ct.RecipeDryingTable;
+import wolforce.mechanics.recipes.RecipeDryingTable;
 
 public class BlockDryingTable extends Block implements ITileEntityProvider {
 

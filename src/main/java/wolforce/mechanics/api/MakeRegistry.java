@@ -52,12 +52,12 @@ public class MakeRegistry {
 
 	private void setReg(Block block, String name) {
 		block.setUnlocalizedName(modid + "." + name);
-		block.setRegistryName(Util.res(name));
+		block.setRegistryName(Util.res(modid, name));
 	}
 
 	private void setReg(Item block, String name) {
 		block.setUnlocalizedName(modid + "." + name);
-		block.setRegistryName(Util.res(name));
+		block.setRegistryName(Util.res(modid, name));
 	}
 
 	public LinkedList<Block> getBlocks() {

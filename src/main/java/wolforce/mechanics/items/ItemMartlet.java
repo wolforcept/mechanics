@@ -10,8 +10,8 @@ import net.minecraftforge.event.world.BlockEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import wolforce.mechanics.Util;
+import wolforce.mechanics.recipes.RecipeMartlet;
 import wolforce.mechanics.Mechanics;
-import wolforce.mechanics.ct.RecipeMartlet;
 
 @Mod.EventBusSubscriber(modid = Mechanics.MODID)
 public class ItemMartlet extends ItemTool {
