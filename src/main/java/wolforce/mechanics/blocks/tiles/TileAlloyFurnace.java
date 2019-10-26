@@ -1,6 +1,5 @@
 package wolforce.mechanics.blocks.tiles;
 
-import mechanics.ct.RecipeAlloyFurnace;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntityFurnace;
@@ -12,6 +11,7 @@ import net.minecraftforge.items.ItemStackHandler;
 import net.minecraftforge.items.wrapper.CombinedInvWrapper;
 import wolforce.mechanics.MConfig;
 import wolforce.mechanics.blocks.bases.IGuiTile;
+import wolforce.mechanics.ct.RecipeAlloyFurnace;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;

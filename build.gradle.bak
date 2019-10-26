@@ -15,7 +15,7 @@ apply plugin: 'net.minecraftforge.gradle.forge'
 
 version = "0.2.1"
 group = "wolforce.mechanics"
-archivesBaseName = "mechanics"
+archivesBaseName = "pristeel"
 
 sourceCompatibility = targetCompatibility = '1.8'
 compileJava {

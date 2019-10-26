@@ -1,13 +1,13 @@
 package wolforce.mechanics.blocks.tiles;
 
-import mechanics.ct.RecipeDryingTable;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.ITickable;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraftforge.items.ItemStackHandler;
-import wolforce.mechanics.MUtil;
+import wolforce.mechanics.Util;
+import wolforce.mechanics.ct.RecipeDryingTable;
 
 public class TileDryingTable extends TileBase implements ITickable {
 
@@ -28,7 +28,7 @@ public class TileDryingTable extends TileBase implements ITickable {
 		
 		for (int slot = 0; slot < charges.length; slot++) {
 			ItemStack stack = inventory.getStackInSlot(slot);
-			if (MUtil.isValid(stack)) {
+			if (Util.isValid(stack)) {
 				if (charges[slot] > 0) {
 					charges[slot]--;
 					if (charges[slot] == 0) {
@@ -37,7 +37,7 @@ public class TileDryingTable extends TileBase implements ITickable {
 						pop(slot);
 						inventory.insertItem(slot, result, false);
 
-						if (MUtil.isValid(RecipeDryingTable.getResult(result)))
+						if (Util.isValid(RecipeDryingTable.getResult(result)))
 							charges[slot] = RecipeDryingTable.getTime(stack);
 						
 						markDirty();
@@ -52,18 +52,18 @@ public class TileDryingTable extends TileBase implements ITickable {
 	}
 
 	public boolean isFull() {
-		return MUtil.getAvailableSlot(inventory) == -1;
+		return Util.getAvailableSlot(inventory) == -1;
 	}
 
 	public boolean insert(ItemStack stack) {
-		int slot = MUtil.getAvailableSlot(inventory);
+		int slot = Util.getAvailableSlot(inventory);
 		if (slot < 0)
 			return false;
 		return insert(stack, slot);
 	}
 
 	private boolean insert(ItemStack stack, int slot) {
-		if (!MUtil.isValid(RecipeDryingTable.getResult(stack)))
+		if (!Util.isValid(RecipeDryingTable.getResult(stack)))
 			return false;
 		inventory.insertItem(slot, stack, false);
 		charges[slot] = RecipeDryingTable.getTime(stack);
@@ -77,7 +77,7 @@ public class TileDryingTable extends TileBase implements ITickable {
 
 	public void dropContents(World world, BlockPos pos) {
 		for (int slot = 0; slot < inventory.getSlots(); slot++)
-			MUtil.spawnItem(world, pos, inventory.extractItem(slot, 64, false));
+			Util.spawnItem(world, pos, inventory.extractItem(slot, 64, false));
 	}
 
 	//

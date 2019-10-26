@@ -1,6 +1,5 @@
 package wolforce.mechanics.blocks;
 
-import mechanics.ct.RecipeDryingTable;
 import net.minecraft.block.Block;
 import net.minecraft.block.ITileEntityProvider;
 import net.minecraft.block.material.Material;
@@ -16,8 +15,9 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
-import wolforce.mechanics.MUtil;
+import wolforce.mechanics.Util;
 import wolforce.mechanics.blocks.tiles.TileDryingTable;
+import wolforce.mechanics.ct.RecipeDryingTable;
 
 public class BlockDryingTable extends Block implements ITileEntityProvider {
 
@@ -38,7 +38,7 @@ public class BlockDryingTable extends Block implements ITileEntityProvider {
 
 		ItemStack held = player.getHeldItem(hand);
 		ItemStack result = RecipeDryingTable.getResult(held);
-		if (!MUtil.isValid(result))
+		if (!Util.isValid(result))
 			return true;
 
 		TileEntity _tile = world.getTileEntity(pos);
@@ -46,7 +46,7 @@ public class BlockDryingTable extends Block implements ITileEntityProvider {
 		if (_tile != null && _tile instanceof TileDryingTable) {
 
 			TileDryingTable tile = (TileDryingTable) _tile;
-			if (MUtil.isValid(held) && !tile.isFull()) {
+			if (Util.isValid(held) && !tile.isFull()) {
 				ItemStack insertedStack = held.copy();
 				insertedStack.setCount(1);
 				tile.insert(insertedStack);
@@ -78,13 +78,13 @@ public class BlockDryingTable extends Block implements ITileEntityProvider {
 		double zz = raytraceresult.hitVec.z - pos.getZ();
 
 		if (xx < .5 && zz < .5)
-			MUtil.spawnItem(world, pos.add(0, .5, 0), tile.pop(0));
+			Util.spawnItem(world, pos.add(0, .5, 0), tile.pop(0));
 		else if (zz < .5)
-			MUtil.spawnItem(world, pos.add(0, .5, 0), tile.pop(1));
+			Util.spawnItem(world, pos.add(0, .5, 0), tile.pop(1));
 		else if (xx < .5)
-			MUtil.spawnItem(world, pos.add(0, .5, 0), tile.pop(2));
+			Util.spawnItem(world, pos.add(0, .5, 0), tile.pop(2));
 		else
-			MUtil.spawnItem(world, pos.add(0, .5, 0), tile.pop(3));
+			Util.spawnItem(world, pos.add(0, .5, 0), tile.pop(3));
 
 		tile.markDirty();
 	}

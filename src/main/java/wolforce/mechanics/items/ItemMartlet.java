@@ -1,6 +1,5 @@
 package wolforce.mechanics.items;
 
-import mechanics.ct.RecipeMartlet;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.item.ItemStack;
@@ -10,8 +9,9 @@ import net.minecraft.world.World;
 import net.minecraftforge.event.world.BlockEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
-import wolforce.mechanics.MUtil;
+import wolforce.mechanics.Util;
 import wolforce.mechanics.Mechanics;
+import wolforce.mechanics.ct.RecipeMartlet;
 
 @Mod.EventBusSubscriber(modid = Mechanics.MODID)
 public class ItemMartlet extends ItemTool {
@@ -23,7 +23,7 @@ public class ItemMartlet extends ItemTool {
 	@Override
 	public boolean onBlockDestroyed(ItemStack stack, World worldIn, IBlockState state, BlockPos pos,
 			EntityLivingBase entityLiving) {
-		if (MUtil.isValid(stack))
+		if (Util.isValid(stack))
 			stack.damageItem(1, entityLiving);
 		return super.onBlockDestroyed(stack, worldIn, state, pos, entityLiving);
 	}
@@ -35,7 +35,7 @@ public class ItemMartlet extends ItemTool {
 
 	@Override
 	public float getDestroySpeed(ItemStack stack, IBlockState state) {
-		if (MUtil.isValid(RecipeMartlet.getResult(MUtil.stateToStack(state))))
+		if (Util.isValid(RecipeMartlet.getResult(Util.stateToStack(state))))
 			return efficiency;
 		return super.getDestroySpeed(stack, state);
 	}
@@ -46,12 +46,12 @@ public class ItemMartlet extends ItemTool {
 
 	@SubscribeEvent
 	public static void onHarvest(BlockEvent.HarvestDropsEvent event) {
-		if (event.getHarvester() != null && event.getHarvester().getHeldItem(event.getHarvester().getActiveHand())
-				.getItem() instanceof ItemMartlet) {
+		if (event.getHarvester() != null && event.getHarvester().getActiveHand() != null && //
+				event.getHarvester().getHeldItem(event.getHarvester().getActiveHand())
+						.getItem() instanceof ItemMartlet) {
 			ItemStack result = RecipeMartlet.getResult(new ItemStack(event.getState().getBlock(), 1,
 					event.getState().getBlock().getMetaFromState(event.getState())));
-			System.out.println(result);
-			if (MUtil.isValid(result)) {
+			if (Util.isValid(result)) {
 				event.getDrops().clear();
 				event.getDrops().add(result);
 			}

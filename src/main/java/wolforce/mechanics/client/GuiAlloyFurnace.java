@@ -4,7 +4,7 @@ import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.util.ResourceLocation;
 import wolforce.mechanics.MConfig;
-import wolforce.mechanics.MUtil;
+import wolforce.mechanics.Util;
 import wolforce.mechanics.Mechanics;
 import wolforce.mechanics.blocks.bases.IGuiTile;
 import wolforce.mechanics.blocks.tiles.TileAlloyFurnace;
@@ -18,7 +18,7 @@ public class GuiAlloyFurnace extends GuiBase {
 
     public GuiAlloyFurnace(InventoryPlayer invPlayer, TileBase tile) {
         super(new ContainerAlloyFurnace(invPlayer, tile), (IGuiTile) tile, texture,
-                MUtil.translateToLocal("tile.mechanics.alloy_furnace.name"));
+                Util.translateToLocal("tile.mechanics.alloy_furnace.name"));
         this.tile = (TileAlloyFurnace) tile;
     }
 

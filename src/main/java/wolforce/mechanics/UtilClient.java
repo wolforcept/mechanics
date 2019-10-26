@@ -10,7 +10,7 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
-public class MUtilClient {
+public class UtilClient {
 
 	// RENDERING HELPERS
 
@@ -55,6 +55,51 @@ public class MUtilClient {
 		GlStateManager.popAttrib();
 		GlStateManager.popMatrix();
 
+	}
+
+	public static void renderItemMult(int nr, double debug1, double debug2, //
+			World world, ItemStack item, double x, double y, double z, double... ins) {
+
+		boolean flag1 = ins.length >= 3;
+		boolean flag2 = ins.length >= 6;
+		float rx = flag1 ? (float) ins[0] : 0;
+		float ry = flag1 ? (float) ins[1] : 0;
+		float rz = flag1 ? (float) ins[2] : 0;
+		double sx = flag2 ? ins[3] : 1;
+		double sy = flag2 ? ins[4] : 1;
+		double sz = flag2 ? ins[5] : 1;
+
+		GlStateManager.pushMatrix();
+		GlStateManager.translate(x + .5f, y, z + .5f);
+
+		GlStateManager.rotate(rx, 1, 0, 0);
+		GlStateManager.rotate(ry, 0, 1, 0);
+		GlStateManager.rotate(rz, 0, 0, 1);
+		GlStateManager.scale(.5f * sx, .5f * sy, .5f * sz);
+		GlStateManager.pushAttrib();
+
+		double d = .15;
+		int m = 1;
+		if (nr % 2 == 0)
+			GlStateManager.translate(0, 0, -d / 2.0);
+
+		for (int i = 1; i <= nr; i++) {
+			Minecraft.getMinecraft().getRenderItem().renderItem(item, ItemCameraTransforms.TransformType.FIXED);
+			GlStateManager.translate(0, 0, d * i * m);
+			m *= -1;
+		}
+
+		GlStateManager.popAttrib();
+		GlStateManager.popMatrix();
+
+	}
+
+	public static int getNrForDebugFromHand() {
+		return getNrForDebugFromHand(Minecraft.getMinecraft().world, Minecraft.getMinecraft().player.getPosition());
+	}
+
+	public static int getNrForDebugFromHand2() {
+		return getNrForDebugFromHand2(Minecraft.getMinecraft().world, Minecraft.getMinecraft().player.getPosition());
 	}
 
 	public static int getNrForDebugFromHand(World world, BlockPos pos) {

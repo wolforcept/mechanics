@@ -1,11 +1,12 @@
 package wolforce.mechanics.jei.alloy;
 
 import com.google.common.collect.Lists;
-import mechanics.ct.RecipeAlloyFurnace;
+
 import mezz.jei.api.ingredients.IIngredients;
 import mezz.jei.api.ingredients.VanillaTypes;
 import mezz.jei.api.recipe.IRecipeWrapper;
 import net.minecraft.item.ItemStack;
+import wolforce.mechanics.ct.RecipeAlloyFurnace;
 
 import java.util.List;
 

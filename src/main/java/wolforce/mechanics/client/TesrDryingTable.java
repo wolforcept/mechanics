@@ -4,7 +4,7 @@ import net.minecraft.block.Block;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
-import wolforce.mechanics.MUtil;
+import wolforce.mechanics.Util;
 import wolforce.mechanics.MUtilClient;
 import wolforce.mechanics.blocks.tiles.TileDryingTable;
 
@@ -18,7 +18,7 @@ public class TesrDryingTable extends TileEntitySpecialRenderer<TileDryingTable> 
 		for (int i = 0; i < 4; i++) {
 			ItemStack stack = te.get(i);
 
-			if (MUtil.isValid(stack) && MUtilClient.canRenderTESR(te)) {
+			if (Util.isValid(stack) && MUtilClient.canRenderTESR(te)) {
 
 				boolean isBlock = Block.getBlockFromItem(stack.getItem()) != Blocks.AIR;
 

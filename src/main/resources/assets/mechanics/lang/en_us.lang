@@ -6,3 +6,6 @@ item.mechanics.martlet_iron.name=Iron Martlet
 
 itemGroup.mechanics=Mechanics
 jei.alloy_furnace.name=Alloy Furnace
+
+mechanics.titles.drying_table.name=Drying Table Recipes
+mechanics.titles.martlet.name=Martlet Recipes

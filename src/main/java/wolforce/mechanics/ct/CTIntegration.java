@@ -1,4 +1,4 @@
-package mechanics.ct;
+package wolforce.mechanics.ct;
 
 import crafttweaker.annotations.ZenDoc;
 import crafttweaker.annotations.ZenRegister;
@@ -55,9 +55,10 @@ public class CTIntegration {
 		RecipeMartlet.addRecipe(input, output);
 	}
 
-	@ZenDoc("Add a recipe for the Martlet.")
+	@ZenDoc("Remove a recipe for the Martlet.")
 	@ZenMethod
 	public static void removeMartletRecipe(IIngredient input) {
 		RecipeMartlet.removeRecipe(input);
 	}
+
 }
